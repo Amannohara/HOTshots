@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HotShotz — Weekly Creative Battles for College Students</title>
+  <meta name="description" content="A weekly creative competition where students submit, vote, and win. Poetry, photography, stories, art — the crowd decides." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;700;800&family=Caveat:wght@500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+
+  <!-- ░░ PAGE LOADER ░░ -->
+  <div id="loader" class="loader" aria-hidden="true">
+    <div class="loader-ring"></div>
+    <span class="loader-text">HotShotz</span>
+  </div>
+
+  <!-- ░░ NAVIGATION ░░ -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo-link">
+        <img src="logo-full.png" alt="HotShotz Logo" class="logo-full" onerror="this.style.display='none'">
+        <span class="nav-brand-fallback">🔥 HotShotz</span>
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="#winners-section" class="nav-link nav-link-winners">🏆 Winners</a></li>
+        <li><a href="#trending-section" class="nav-link">🔥 Trending</a></li>
+        <li><a href="#submissions"      class="nav-link">All Shots</a></li>
+        <li><a href="#submit-section"   class="nav-link">Submit</a></li>
+      </ul>
+
+      <!-- Auth zone -->
+      <div class="nav-auth" id="nav-auth">
+        <div class="nav-guest" id="nav-guest">
+          <a href="login.html"    class="btn btn-ghost btn-sm">Sign In</a>
+          <a href="register.html" class="btn btn-glow  btn-sm">Join Free</a>
+        </div>
+        <div class="nav-user hidden" id="nav-user">
+          <button class="nav-avatar-btn" id="nav-avatar-btn" aria-label="User menu" aria-expanded="false">
+            <div class="nav-avatar" id="nav-avatar-display"></div>
+            <span class="nav-username" id="nav-username-display"></span>
+            <svg class="nav-caret" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="nav-dropdown hidden" id="nav-dropdown" role="menu">
+            <div class="nav-dropdown-header" id="nav-dropdown-header"></div>
+            <div class="nav-dropdown-divider"></div>
+            <a href="profile.html" class="nav-dropdown-item" role="menuitem">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              My Profile
+            </a>
+            <a href="#submit-section" class="nav-dropdown-item" role="menuitem" id="dropdown-submit-link">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7-7 7 7"/></svg>
+              Drop a Shot
+            </a>
+            <div class="nav-dropdown-divider"></div>
+            <button class="nav-dropdown-item nav-dropdown-logout" role="menuitem" id="logout-btn">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-glow btn-sm" id="nav-submit-btn">Drop Your Shot</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero hero-v2" id="hero" aria-label="Hero">
+    <div class="hero-spot" aria-hidden="true"></div>
+    <div>
+      <div class="sticker">Made by students.<br>Judged by students.</div>
+      <span class="hero-badge-inline">Week <span id="current-week-badge">—</span> is live</span>
+      <h1 class="hero-title">
+        Show your work.
+        <span class="l2">Don't let it <u>die in your gallery.</u></span>
+        <span class="l3">Win the week.
+          <svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path class="draw" pathLength="1" d="M2 8 C40 2, 80 11, 120 5 S180 4, 198 7" fill="none" stroke="#a78bfa" stroke-width="4" stroke-linecap="round"/></svg>
+        </span>
+      </h1>
+      <p class="lede">Every week has a theme. Post a photo, a poem, a sketch, a track. Students from other colleges vote, and whoever gets the most votes wins.</p>
+      <div class="hero-actions">
+        <button class="btn btn-glow btn-lg btn-hero-cta" id="hero-submit-btn"><span>Enter this week's contest</span></button>
+        <a href="#submissions" class="btn btn-ghost btn-lg">Browse shots</a>
+      </div>
+      <div class="stats-line" id="stats-strip">
+        <span class="stat-line-item"><b id="stat-week-subs">—</b> submissions</span>
+        <span class="stat-line-item"><b id="stat-total-votes">—</b> votes cast</span>
+        <span class="stat-line-item"><b id="stat-colleges">—</b> colleges</span>
+        <span id="demo-extra-stats"></span>
+      </div>
+    </div>
+    <aside id="demo-hero-panel" aria-label="Right now on HotShotz"></aside>
+  </section>
+
+  <!-- ░░ WEEKLY WINNERS ░░ -->
+  <section class="section" id="winners-section" aria-label="Weekly Winners">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <div class="section-tag section-tag-gold">Hall of Fame</div>
+        <h2 class="section-title">This Week's Winners 🏆</h2>
+        <p class="section-desc">Top 3 submissions crowned by the community</p>
+      </div>
+      <div class="winners-grid" id="winners-grid">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ TRENDING NOW ░░ -->
+  <section class="section" id="trending-section" aria-label="Trending Now">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <div class="section-tag section-tag-hot">Live Rankings</div>
+        <h2 class="section-title">🔥 Trending Now</h2>
+        <p class="section-desc">The hottest submissions climbing the charts right now</p>
+      </div>
+      <div class="trending-grid" id="trending-grid">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true"><div class="ticker-track" id="demo-ticker"></div></div>
+
+  <!-- DEMO SECTIONS (rendered by home.js from fakeData.js) -->
+  <section class="demo-wrap" aria-label="This week at a glance">
+    <h2>This week, at a glance <small>live</small></h2>
+    <div class="bento" id="demo-bento"></div>
+  </section>
+
+  <section class="demo-wrap dock-wrap" aria-label="Categories">
+    <div class="dock" id="demo-dock"></div>
+  </section>
+
+  <section class="demo-wrap" aria-label="Trending this week">
+    <h2>Trending this week <small>climbing fast</small></h2>
+    <div class="masonry" id="demo-masonry"></div>
+  </section>
+
+  <section class="demo-wrap" aria-label="College leaderboard">
+    <h2>Colleges, ranked <small>who's winning the week</small></h2>
+    <div class="lb-top" id="demo-lb-top"></div>
+    <ol class="lb-rest" id="demo-lb-rest" start="4"></ol>
+  </section>
+
+  <section class="demo-wrap duo" aria-label="Spotlight and activity">
+    <div><h2>Creator spotlight</h2><div id="demo-spotlight"></div></div>
+    <div><h2>Latest activity</h2><ul id="demo-activity"></ul></div>
+  </section>
+
+  <section class="demo-wrap" aria-label="Upcoming themes">
+    <h2>Coming up <small>start thinking</small></h2>
+    <ul id="demo-themes"></ul>
+  </section>
+
+  <section class="demo-wrap" aria-label="What creators say">
+    <h2>People who posted</h2>
+    <div id="demo-quotes"></div>
+  </section>
+
+  <!-- ░░ SUBMISSIONS FEED ░░ -->
+  <section class="section" id="submissions" aria-label="All Submissions">
+    <div class="container">
+      <div class="section-header" data-animate="fade-up">
+        <div class="section-tag">Explore All</div>
+        <h2 class="section-title">All Shots</h2>
+        <p class="section-desc">Every submission in this week's arena</p>
+      </div>
+
+      <div class="filter-bar" role="group" aria-label="Filter submissions">
+        <div class="filter-chips" id="category-filters">
+          <button class="chip chip-active" data-category="">All</button>
+          <button class="chip" data-category="poetry">✍️ Poetry</button>
+          <button class="chip" data-category="photography">🖼️ Photography</button>
+          <button class="chip" data-category="story">📖 Story</button>
+          <button class="chip" data-category="art">🎨 Art</button>
+          <button class="chip" data-category="music">🎵 Music</button>
+          <button class="chip" data-category="other">✨ Other</button>
+        </div>
+        <div class="filter-sort">
+          <select class="sort-select" id="sort-select" aria-label="Sort submissions">
+            <option value="votes">Most Voted</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="cards-grid" id="submissions-grid"></div>
+
+      <div class="empty-state hidden" id="empty-state">
+        <div class="empty-icon">🎭</div>
+        <h3>No submissions yet</h3>
+        <p>Be the first to drop your shot this week!</p>
+        <button class="btn btn-glow" id="empty-submit-btn">Submit Now</button>
+      </div>
+
+      <div class="load-more-wrap hidden" id="load-more-wrap">
+        <button class="btn btn-ghost" id="load-more-btn">Load More</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ SUBMIT SECTION ░░ -->
+  <section class="section section-submit" id="submit-section" aria-label="Submit your work">
+    <div class="container container-narrow">
+      <div class="submit-card">
+        <div class="submit-card-glow" aria-hidden="true"></div>
+        <div class="section-header">
+          <div class="section-tag">Your Turn</div>
+          <h2 class="section-title">Drop Your Shot 🔥</h2>
+          <p class="section-desc">Share your creativity. Every submission competes for this week's crown.</p>
+        </div>
+
+        <div id="submit-login-prompt" class="submit-login-prompt hidden">
+          <div class="prompt-icon">🔐</div>
+          <h3 class="prompt-title">Sign in to Submit</h3>
+          <p class="prompt-text">You need an account to drop your shot and compete.</p>
+          <div class="prompt-actions">
+            <a href="login.html"    class="btn btn-glow btn-lg">Sign In</a>
+            <a href="register.html" class="btn btn-ghost btn-lg">Create Account</a>
+          </div>
+        </div>
+
+        <form id="submit-form" class="submit-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-author" class="form-label">Your Name *</label>
+              <input type="text" id="f-author" name="authorName" class="form-input" placeholder="e.g. Anika Sharma" required maxlength="50" />
+            </div>
+            <div class="form-group">
+              <label for="f-college" class="form-label">College *</label>
+              <input type="text" id="f-college" name="authorCollege" class="form-input" placeholder="e.g. IIT Bombay" maxlength="80" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="f-title" class="form-label">Title *</label>
+            <input type="text" id="f-title" name="title" class="form-input" placeholder="Give your work a title…" required maxlength="100" />
+          </div>
+          <div class="form-group">
+            <label for="f-category" class="form-label">Category *</label>
+            <select id="f-category" name="category" class="form-input" required>
+              <option value="" disabled selected>Pick a category…</option>
+              <option value="poetry">✍️ Poetry</option>
+              <option value="photography">🖼️ Photography</option>
+              <option value="story">📖 Story</option>
+              <option value="art">🎨 Art</option>
+              <option value="music">🎵 Music</option>
+              <option value="other">✨ Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="f-content" class="form-label">Your Work *</label>
+            <textarea id="f-content" name="content" class="form-input form-textarea" placeholder="Paste your poem, story, description, or lyrics here…" required maxlength="5000" rows="8"></textarea>
+            <div class="char-counter"><span id="char-count">0</span>/5000</div>
+          </div>
+          <div class="form-group">
+            <label for="f-image-file" class="form-label">
+              Image Upload <span class="label-optional">(optional — for art/photography)</span>
+            </label>
+            <div class="upload-area" id="upload-area">
+              <input type="file" id="f-image-file" accept="image/*" class="upload-input" />
+              <div class="upload-placeholder">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span>Click or drag an image here</span>
+                <span class="upload-hint">JPG, PNG, WebP — max 5MB</span>
+              </div>
+              <img id="image-preview" src="" alt="Preview" class="image-preview hidden" />
+            </div>
+            <span class="upload-status" id="upload-status"></span>
+          </div>
+          <div class="form-alert hidden" id="form-alert" role="alert"></div>
+          <button type="submit" class="btn btn-glow btn-full btn-lg" id="submit-btn">
+            <span id="submit-btn-text">Submit My Shot</span>
+            <span class="btn-spinner hidden" id="submit-spinner" aria-hidden="true"></span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ FOOTER ░░ -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="logo-flame">🔥</span>
+          <span class="logo-text">HotShotz</span>
+          <p class="footer-tagline">Weekly creative battles for college students.</p>
+        </div>
+        <div class="footer-links">
+          <a href="profile.html" class="footer-link">My Profile</a>
+          <a href="admin.html"   class="footer-link">Admin</a>
+        </div>
+        <div class="footer-meta">
+          <span id="footer-week">Week —</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ░░ MODAL ░░ -->
+  <div class="modal-backdrop hidden" id="modal-backdrop" role="dialog" aria-modal="true" aria-label="Submission detail">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- ░░ TOAST ░░ -->
+  <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
+  <p class="demo-note">Some numbers and profiles on this page are sample data for demo purposes.</p>
+  <script>
+    /* Don't hold the page hostage to the API: drop the loader once the page is ready (max ~0.5s). */
+    (function () {
+      var l = document.getElementById('loader');
+      if (!l) return;
+      var done = function () { l.classList.add('fade-out'); setTimeout(function () { l.remove(); }, 300); };
+      if (document.readyState === 'complete') setTimeout(done, 100);
+      else window.addEventListener('load', function () { setTimeout(done, 100); });
+      setTimeout(done, 1200); /* hard cap even if fonts or images stall */
+    })();
+  </script>
+  <script src="server/app.js"></script>
+  <script src="fakeData.js"></script>
+  <script src="home.js"></script>
+  <script src="showcase.js"></script>
+</body>
+</html>
