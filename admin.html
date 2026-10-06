@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — HotShotz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#080810;--surface:#0f0f1a;--elevated:#161624;--violet:#7c3aed;--cyan:#06b6d4;--amber:#f59e0b;--hot:#ff4d6d;--green:#10b981;--grad:linear-gradient(135deg,#7c3aed,#4f46e5,#06b6d4);--border:rgba(255,255,255,0.07);--border-a:rgba(124,58,237,0.4);--text:#f1f0ff;--muted:#a09ec0;--dim:#5f5d80;--font-d:'Syne',sans-serif;--font-b:'DM Sans',sans-serif;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:var(--font-b);background:var(--bg);color:var(--text);min-height:100vh;padding:40px 24px;}
+    h1{font-family:var(--font-d);font-size:1.8rem;font-weight:800;margin-bottom:8px;background:linear-gradient(90deg,#c084fc,#818cf8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+    .subtitle{color:var(--muted);margin-bottom:32px;font-size:0.9rem;}
+    .container{max-width:900px;margin:0 auto;}
+
+    /* key input */
+    .key-bar{display:flex;gap:12px;margin-bottom:32px;align-items:center;flex-wrap:wrap;}
+    .key-input{flex:1;min-width:200px;padding:12px 16px;background:rgba(255,255,255,0.04);border:1px solid var(--border-a);border-radius:12px;color:var(--text);font-family:var(--font-b);font-size:0.92rem;outline:none;}
+    .key-input:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(124,58,237,0.15);}
+    .btn{display:inline-flex;align-items:center;gap:6px;padding:11px 20px;border-radius:10px;font-size:0.88rem;font-weight:600;font-family:var(--font-d);cursor:pointer;border:none;transition:all 0.15s;}
+    .btn-primary{background:var(--grad);color:#fff;box-shadow:0 0 16px rgba(124,58,237,0.3);}
+    .btn-primary:hover{box-shadow:0 0 28px rgba(124,58,237,0.5);}
+    .btn-approve{background:rgba(16,185,129,0.15);color:var(--green);border:1px solid rgba(16,185,129,0.3);}
+    .btn-approve:hover{background:rgba(16,185,129,0.25);}
+    .btn-reject{background:rgba(239,68,68,0.12);color:#f87171;border:1px solid rgba(239,68,68,0.25);}
+    .btn-reject:hover{background:rgba(239,68,68,0.22);}
+    .btn-compute{background:rgba(245,158,11,0.15);color:var(--amber);border:1px solid rgba(245,158,11,0.3);}
+    .btn-compute:hover{background:rgba(245,158,11,0.25);}
+
+    /* tabs */
+    .tabs{display:flex;gap:8px;margin-bottom:24px;}
+    .tab{padding:8px 18px;border-radius:100px;font-size:0.85rem;font-weight:600;cursor:pointer;border:1px solid var(--border);color:var(--muted);background:none;transition:all 0.15s;font-family:var(--font-b);}
+    .tab.active{background:rgba(124,58,237,0.15);border-color:var(--border-a);color:#a78bfa;}
+
+    /* table */
+    .table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+    table{width:100%;border-collapse:collapse;}
+    th{padding:12px 16px;text-align:left;font-size:0.75rem;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:0.08em;border-bottom:1px solid var(--border);}
+    td{padding:14px 16px;border-bottom:1px solid var(--border);font-size:0.87rem;vertical-align:top;}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:rgba(255,255,255,0.02);}
+    .td-title{font-weight:600;color:var(--text);max-width:200px;}
+    .td-cat{font-size:0.75rem;color:#a78bfa;font-weight:600;text-transform:uppercase;}
+    .td-author{color:var(--muted);}
+    .td-content{color:var(--muted);font-size:0.8rem;max-width:220px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+    .td-actions{display:flex;gap:8px;white-space:nowrap;}
+    .status-badge{padding:3px 10px;border-radius:100px;font-size:0.73rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;}
+    .status-pending{background:rgba(245,158,11,0.15);color:var(--amber);border:1px solid rgba(245,158,11,0.3);}
+    .status-approved{background:rgba(16,185,129,0.12);color:var(--green);border:1px solid rgba(16,185,129,0.25);}
+    .status-rejected{background:rgba(239,68,68,0.1);color:#f87171;border:1px solid rgba(239,68,68,0.2);}
+
+    .msg{text-align:center;padding:48px;color:var(--muted);}
+    .top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+    .alert{padding:12px 16px;border-radius:10px;font-size:0.88rem;margin-bottom:16px;display:none;}
+    .alert.show{display:block;}
+    .alert-ok{background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#6ee7b7;}
+    .alert-err{background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);color:#fca5a5;}
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🔐 Admin Panel</h1>
+  <p class="subtitle">Manage submissions and compute weekly winners</p>
+
+  <div class="key-bar">
+    <input type="password" class="key-input" id="admin-key" placeholder="Enter admin secret key…" />
+    <button class="btn btn-primary" onclick="loadPending()">Load Pending</button>
+    <button class="btn btn-compute" onclick="computeWinners()">⚡ Compute Winners</button>
+  </div>
+
+  <div class="alert" id="alert"></div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('pending')">Pending</button>
+    <button class="tab" onclick="switchTab('approved')">Approved</button>
+    <button class="tab" onclick="switchTab('rejected')">Rejected</button>
+  </div>
+
+  <div class="top-bar">
+    <span id="count-label" style="color:var(--muted);font-size:0.88rem;">—</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th><th>Category</th><th>Author</th><th>Content</th><th>Status</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"><tr><td colspan="6" class="msg">Enter your admin key and click "Load Pending"</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+let currentTab = 'pending';
+
+function getKey() { return document.getElementById('admin-key').value.trim(); }
+
+function showAlert(msg, type='ok') {
+  const el = document.getElementById('alert');
+  el.textContent = msg;
+  el.className = `alert show alert-${type}`;
+  setTimeout(() => el.classList.remove('show'), 4000);
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['pending','approved','rejected'][i]===tab));
+  loadPending();
+}
+
+async function loadPending() {
+  const key = getKey();
+  if (!key) { showAlert('Enter the admin key first.','err'); return; }
+
+  const body = document.getElementById('table-body');
+  body.innerHTML = '<tr><td colspan="6" class="msg">Loading…</td></tr>';
+
+  try {
+    const res  = await fetch(`/api/admin/submissions?status=${currentTab}`, { headers: { 'x-admin-key': key } });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+
+    document.getElementById('count-label').textContent = `${data.data.length} ${currentTab} submission${data.data.length !== 1 ? 's' : ''}`;
+
+    if (!data.data.length) { body.innerHTML = '<tr><td colspan="6" class="msg">No submissions found.</td></tr>'; return; }
+
+    body.innerHTML = data.data.map(s => `
+      <tr id="row-${s._id}">
+        <td class="td-title">${escH(s.title)}</td>
+        <td class="td-cat">${escH(s.category)}</td>
+        <td class="td-author">${escH(s.authorName)}<br><span style="font-size:0.75rem;color:var(--dim)">${escH(s.authorCollege||'')}</span></td>
+        <td class="td-content">${escH(s.content)}</td>
+        <td><span class="status-badge status-${s.status}">${s.status}</span></td>
+        <td class="td-actions">
+          ${s.status !== 'approved' ? `<button class="btn btn-approve" onclick="action('${s._id}','approve')">✅ Approve</button>` : ''}
+          ${s.status !== 'rejected' ? `<button class="btn btn-reject"  onclick="action('${s._id}','reject')">❌ Reject</button>` : ''}
+        </td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    body.innerHTML = `<tr><td colspan="6" class="msg" style="color:#f87171">${escH(err.message)}</td></tr>`;
+    showAlert(err.message, 'err');
+  }
+}
+
+async function action(id, type) {
+  const key = getKey();
+  try {
+    const res  = await fetch(`/api/admin/${type}/${id}`, { method:'PATCH', headers:{'x-admin-key':key} });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    showAlert(`✅ Submission ${type}d!`,'ok');
+    document.getElementById(`row-${id}`)?.remove();
+  } catch (err) { showAlert(err.message,'err'); }
+}
+
+async function computeWinners() {
+  const key = getKey();
+  if (!key) { showAlert('Enter the admin key first.','err'); return; }
+  try {
+    const res  = await fetch('/api/winners/compute', { method:'POST', headers:{'Content-Type':'application/json','x-admin-key':key}, body:'{}' });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+    showAlert(`🏆 Winners computed! ${data.data.map(w=>`#${w.rank} ${w.title}`).join(', ')}`,'ok');
+  } catch (err) { showAlert(err.message,'err'); }
+}
+
+function escH(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>
