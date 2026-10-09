@@ -1,0 +1,16 @@
+# Rename to .env before running
+
+PORT=3000
+NODE_ENV=development
+
+MONGODB_URI=mongodb://localhost:27017/hotshotz
+
+JWT_SECRET=hotshotz_super_secret_change_in_production_please
+
+# Cloudinary — get free credentials at cloudinary.com
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+# Admin panel secret key (send as x-admin-key header)
+ADMIN_SECRET=hotshotz_admin_2024
